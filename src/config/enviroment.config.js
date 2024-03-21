@@ -6,11 +6,14 @@ program.option("--mode <mode>", "Modo de Trabajo", "DEVELOPMENT");
 program.parse();
 
 dotenv.config({
-	path: program.opts().mode === "DEVELOPMENT" ? "./.env.development" : "./.env.production",
+  path:
+    program.opts().mode === "DEVELOPMENT"
+      ? "./.env.development"
+      : "./.env.production",
 });
 
 export default {
-	port: process.env.PORT,
-	mongoUrl: process.env.MONGO_URL,
-	apiUrl: process.env.API_URL,
+  port: process.env.PORT,
+  mongoUrl: process.env.MONGO_URL,
+  apiUrl: process.env.API_URL,
 };
