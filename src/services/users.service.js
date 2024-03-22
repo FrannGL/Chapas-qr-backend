@@ -1,4 +1,7 @@
 import { usersModel } from "../DAO/mongo/users.model.js";
+import moment from "moment";
+import { __dirname } from "../server.js";
+import { uploadFile, getFileURL } from "../config/s3.js";
 
 class UserService {
 	async read() {
@@ -10,12 +13,29 @@ class UserService {
 		}
 	}
 
-	async create(userData) {
+	async create(data) {
 		try {
-			console.log(userData);
-			const newUser = await usersModel.create(userData);
-			return newUser;
+			const { userData, file } = data;
+
+			await uploadFile(file);
+			const fileName = file.name;
+			const fileUrl = await getFileURL(fileName);
+
+			userData.birthday = moment(userData.birthday, "DD/MM/YYYY").toDate();
+
+			const newUser = {
+				name: userData.name,
+				image: fileUrl,
+				weight: userData.weight,
+				birthday: userData.birthday,
+				owner: userData.owner,
+				whatsappNumber: userData.whatsappNumber,
+			};
+
+			const createdUser = await usersModel.create(newUser);
+			return createdUser;
 		} catch (error) {
+			console.log(error);
 			throw new Error("Error al crear un nuevo usuario en la base de datos");
 		}
 	}

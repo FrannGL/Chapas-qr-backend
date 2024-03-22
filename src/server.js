@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import compression from "compression";
+import fileUpload from "express-fileupload";
 import env from "./config/enviroment.config.js";
 import { connectMongo } from "./db/index.js";
 import { usersRouter } from "./routes/users.router.js";
@@ -21,6 +22,12 @@ const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
 // MIDDLEWARES BASICOS
+app.use(
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: "uploads/",
+	})
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -28,5 +35,5 @@ app.use(express.static("public"));
 app.use("/api/users", usersRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+	console.log(`Server listening on http://localhost:${PORT}`);
 });

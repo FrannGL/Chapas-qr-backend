@@ -21,7 +21,14 @@ class UserController {
 	async create(req, res) {
 		try {
 			const userData = req.body;
-			const newUser = await userService.create(userData);
+			const file = req.files.image;
+
+			const dataToSend = {
+				userData: userData,
+				file: file,
+			};
+
+			const newUser = await userService.create(dataToSend);
 			return res.status(201).json({
 				statusCode: 201,
 				payload: newUser,

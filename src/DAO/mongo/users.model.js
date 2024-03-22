@@ -15,6 +15,7 @@ class UsersModel {
 			const newUser = await UsersMongoose.create(userData);
 			return newUser;
 		} catch (error) {
+			console.log(error);
 			throw new Error("Error al crear un nuevo usuario en la base de datos");
 		}
 	}
