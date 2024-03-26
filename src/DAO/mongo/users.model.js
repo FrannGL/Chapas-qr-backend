@@ -25,6 +25,7 @@ class UsersModel {
 			const updatedUser = await UsersMongoose.findByIdAndUpdate(id, userData, { new: true });
 			return updatedUser;
 		} catch (error) {
+			console.log(error);
 			throw new Error("Error al actualizar el usuario en la base de datos");
 		}
 	}

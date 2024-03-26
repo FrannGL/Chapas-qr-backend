@@ -7,7 +7,7 @@ const schema = new Schema({
 	},
 	image: {
 		type: String,
-		required: true,
+		required: false,
 	},
 	weight: {
 		type: Number,
