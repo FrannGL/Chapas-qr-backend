@@ -19,13 +19,13 @@ class UserService {
 
 			await uploadFile(file);
 			const fileName = file.name;
-			const fileUrl = await getFileURL(fileName);
+			const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${fileName}`;
 
 			userData.birthday = moment(userData.birthday, "DD/MM/YYYY").toDate();
 
 			const newUser = {
 				name: userData.name,
-				image: fileUrl,
+				image: url,
 				weight: userData.weight,
 				birthday: userData.birthday,
 				owner: userData.owner,
@@ -42,8 +42,28 @@ class UserService {
 
 	async update(id, userData) {
 		try {
-			const updatedUser = await usersModel.update(id, userData);
-			return updatedUser;
+			if (userData.image.data) {
+				await uploadFile(userData.image);
+				const fileName = userData.image.name;
+
+				const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${fileName}`;
+
+				userData.birthday = moment(userData.birthday, "DD/MM/YYYY").toDate();
+
+				const newUser = {
+					name: userData.name,
+					image: url,
+					weight: userData.weight,
+					birthday: userData.birthday,
+					owner: userData.owner,
+					whatsappNumber: userData.whatsappNumber,
+				};
+				const updatedUser = await usersModel.update(id, newUser);
+				return updatedUser;
+			} else {
+				const updatedUser = await usersModel.update(id, userData);
+				return updatedUser;
+			}
 		} catch (error) {
 			throw new Error("Error al actualizar el usuario en la base de datos");
 		}

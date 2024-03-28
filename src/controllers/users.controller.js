@@ -45,13 +45,46 @@ class UserController {
 	async update(req, res) {
 		try {
 			const { id } = req.params;
-			const userData = req.body;
-			delete userData._id;
-			const updatedUser = await userService.update(id, userData);
-			return res.status(200).json({
-				statusCode: 200,
-				payload: updatedUser,
-			});
+			if (req.files) {
+				const userData = req.body;
+				const file = req.files.image;
+
+				delete userData._id;
+				delete userData.image;
+
+				const user = {
+					name: userData.name,
+					image: file,
+					weight: userData.weight,
+					birthday: userData.birthday,
+					owner: userData.owner,
+					whatsappNumber: userData.whatsappNumber,
+				};
+
+				const updatedUser = await userService.update(id, user);
+				return res.status(200).json({
+					statusCode: 200,
+					payload: updatedUser,
+				});
+			} else {
+				const userData = req.body;
+				delete userData._id;
+
+				const user = {
+					name: userData.name,
+					image: userData.image,
+					weight: userData.weight,
+					birthday: userData.birthday,
+					owner: userData.owner,
+					whatsappNumber: userData.whatsappNumber,
+				};
+
+				const updatedUser = await userService.update(id, user);
+				return res.status(200).json({
+					statusCode: 200,
+					payload: updatedUser,
+				});
+			}
 		} catch (error) {
 			console.error(error);
 			return res.status(500).json({
