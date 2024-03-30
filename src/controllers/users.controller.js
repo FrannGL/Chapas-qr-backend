@@ -54,6 +54,7 @@ class UserController {
 
 				const user = {
 					name: userData.name,
+					race: userData.race,
 					image: file,
 					weight: userData.weight,
 					birthday: userData.birthday,
@@ -72,6 +73,7 @@ class UserController {
 
 				const user = {
 					name: userData.name,
+					race: userData.race,
 					image: userData.image,
 					weight: userData.weight,
 					birthday: userData.birthday,

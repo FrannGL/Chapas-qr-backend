@@ -25,6 +25,7 @@ class UserService {
 
 			const newUser = {
 				name: userData.name,
+				race: userData.race,
 				image: url,
 				weight: userData.weight,
 				birthday: userData.birthday,
@@ -52,6 +53,7 @@ class UserService {
 
 				const newUser = {
 					name: userData.name,
+					race: userData.race,
 					image: url,
 					weight: userData.weight,
 					birthday: userData.birthday,
