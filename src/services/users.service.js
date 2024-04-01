@@ -63,6 +63,8 @@ class UserService {
 				const updatedUser = await usersModel.update(id, newUser);
 				return updatedUser;
 			} else {
+				userData.birthday = moment(userData.birthday, "DD/MM/YYYY").toDate();
+
 				const updatedUser = await usersModel.update(id, userData);
 				return updatedUser;
 			}
