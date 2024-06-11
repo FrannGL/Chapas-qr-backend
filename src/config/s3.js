@@ -7,7 +7,7 @@ const client = new S3Client({
 	region: env.AWS_BUCKET_REGION,
 	credentials: {
 		accessKeyId: env.AWS_PUBLIC_KEY,
-		secretAccessKey: env.AWS_SECRET_KEY,
+		secretAccessKey: env.AWS_SECRET_KEY_,
 	},
 });
 
