@@ -1,6 +1,6 @@
 import { usersModel } from "../DAO/mongo/users.model.js";
 import moment from "moment";
-import { __dirname } from "../server.js";
+import { __dirname } from "../../api/index.js";
 import { uploadFile, getFileURL } from "../config/s3.js";
 
 class UserService {
